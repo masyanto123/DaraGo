@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -44,5 +46,29 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return in_array($this->role, ['admin', 'superadmin'], true);
+    }
+
+    /**
+     * @return HasOne<Karyawan, $this>
+     */
+    public function karyawan(): HasOne
+    {
+        return $this->hasOne(Karyawan::class, 'user_id');
+    }
+
+    /**
+     * @return HasOne<PesertaKlien, $this>
+     */
+    public function peserta(): HasOne
+    {
+        return $this->hasOne(PesertaKlien::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany<LogLokasi, $this>
+     */
+    public function logLokasi(): HasMany
+    {
+        return $this->hasMany(LogLokasi::class, 'user_id');
     }
 }

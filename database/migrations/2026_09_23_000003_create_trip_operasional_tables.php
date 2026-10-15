@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::create('armada_bus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trip_id')->constrained('trip_perjalanan')->cascadeOnDelete();
+            $table->foreignId('trip_id')->nullable()->constrained('trip_perjalanan')->nullOnDelete();
             $table->string('nama_po', 150)->nullable();
             $table->string('nomor_bus', 50);
             $table->foreignId('supir_id')->nullable()->constrained('karyawan')->nullOnDelete();

@@ -149,6 +149,7 @@
                             type="checkbox" 
                             name="remember" 
                             id="remember" 
+                            value="1"
                             class="w-4 h-4 rounded border-slate-300 text-[#4f46e5] focus:ring-[#4f46e5]/30 cursor-pointer"
                         >
                         <span class="ml-2 text-xs sm:text-[13px] text-slate-600">Remember me</span>
@@ -178,41 +179,6 @@
 
         </div>
 
-        <!-- Quick Demo Credentials Helper -->
-        <div class="mt-6 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/60 p-3.5 shadow-xs text-xs">
-            <div class="flex items-center justify-between text-slate-500 font-medium mb-2">
-                <span class="flex items-center gap-1.5 text-slate-600 font-semibold">
-                    <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-                    </svg>
-                    Akun Database Tersedia (Klik untuk auto-fill):
-                </span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button 
-                    type="button" 
-                    onclick="fillCredentials('superadmin@darago.id', 'Password123!')"
-                    class="flex flex-col items-start p-2 rounded-lg bg-indigo-50/70 hover:bg-indigo-100/70 border border-indigo-100 text-left transition cursor-pointer"
-                >
-                    <span class="font-semibold text-indigo-700 text-[11px] flex items-center gap-1">
-                        👑 Super Admin
-                    </span>
-                    <span class="text-[10px] text-slate-500 truncate w-full">superadmin@darago.id</span>
-                </button>
-
-                <button 
-                    type="button" 
-                    onclick="fillCredentials('admin@darago.id', 'Password123!')"
-                    class="flex flex-col items-start p-2 rounded-lg bg-slate-100/80 hover:bg-slate-200/70 border border-slate-200 text-left transition cursor-pointer"
-                >
-                    <span class="font-semibold text-slate-700 text-[11px] flex items-center gap-1">
-                        🛡️ Admin
-                    </span>
-                    <span class="text-[10px] text-slate-500 truncate w-full">admin@darago.id</span>
-                </button>
-            </div>
-        </div>
-
     </div>
 
     <!-- Small bottom indicator -->
@@ -237,11 +203,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 `;
             }
-        }
-
-        function fillCredentials(email, password) {
-            document.getElementById('email').value = email;
-            document.getElementById('password').value = password;
         }
     </script>
 </body>
