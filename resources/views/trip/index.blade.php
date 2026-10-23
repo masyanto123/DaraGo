@@ -3,27 +3,31 @@
 @section('title', 'Sistem Operasional Trip Perjalanan')
 
 @section('content')
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span>Sistem Operasional</span>
-                <span>/</span>
-                <span class="text-slate-600">Trip Perjalanan</span>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-                Trip Perjalanan
-            </h1>
-            <p class="text-xs text-slate-400 mt-0.5">
-                Kelola paket tur & perjalanan wisata, alokasi armada bus, manifest presensi, dan itinerary
-            </p>
-        </div>
+    <!-- Hero Header Banner with Gradient -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-sky-500 p-6 sm:p-7 shadow-lg shadow-indigo-500/15 text-white">
+        <!-- Subtle Glow Background Decorative Shapes -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-sky-400/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <a href="{{ route('trip.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-[#223268] hover:bg-[#1a2754] text-white text-xs font-semibold rounded-xl shadow-xs transition duration-150 cursor-pointer self-start sm:self-auto">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Buat Trip Baru</span>
-        </a>
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-1.5 text-xs text-white/80 font-medium mb-1.5">
+                    <span>Sistem Operasional</span>
+                    <span>/</span>
+                    <span class="text-white font-semibold">Trip Perjalanan</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Trip Perjalanan
+                </h1>
+                <p class="text-xs text-white/80 mt-1 max-w-xl">
+                    Kelola paket tur & perjalanan wisata, alokasi armada bus, manifest presensi, dan itinerary perjalanan dengan mudah.
+                </p>
+            </div>
+
+            <a href="{{ route('trip.create') }}" class="inline-flex items-center px-4 py-2.5 bg-white/15 hover:bg-white/25 active:bg-white/30 backdrop-blur-md text-white text-xs font-semibold rounded-xl border border-white/20 shadow-sm transition duration-150 cursor-pointer self-start sm:self-auto hover:scale-[1.02]">
+                <span>Buat Trip Baru</span>
+            </a>
+        </div>
     </div>
 
     <!-- Table Card -->
@@ -64,20 +68,24 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @if($trip->status === 'Ongoing')
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[9.5px] border border-emerald-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                                         Sedang Berjalan
                                     </span>
                                 @elseif($trip->status === 'Upcoming')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold text-[10px] border border-blue-200">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold text-[9.5px] border border-blue-200">
                                         Mendatang
                                     </span>
                                 @elseif($trip->status === 'Completed')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold text-[10px]">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold text-[9.5px] border border-slate-200">
                                         Selesai
                                     </span>
+                                @elseif($trip->status === 'Cancelled')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold text-[9.5px] border border-rose-200">
+                                        Dibatalkan
+                                    </span>
                                 @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 font-semibold text-[10px]">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold text-[9.5px]">
                                         {{ $trip->status }}
                                     </span>
                                 @endif

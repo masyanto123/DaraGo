@@ -60,14 +60,17 @@
         @if($po->alamat || $po->detail)
             <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs text-xs space-y-2">
                 @if($po->alamat)
+        @if($po->alamat || $po->detail)
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs text-xs space-y-2">
+                @if($po->alamat)
                     <div>
-                        <span class="font-bold text-slate-700">📍 Alamat Garasi / Kantor:</span>
+                        <span class="font-bold text-slate-700">Alamat Garasi / Kantor:</span>
                         <span class="text-slate-600 ml-1">{{ $po->alamat }}</span>
                     </div>
                 @endif
                 @if($po->detail)
                     <div>
-                        <span class="font-bold text-slate-700">ℹ️ Keterangan / Fasilitas PO:</span>
+                        <span class="font-bold text-slate-700">Keterangan / Fasilitas PO:</span>
                         <span class="text-slate-600 ml-1">{{ $po->detail }}</span>
                     </div>
                 @endif
@@ -82,7 +85,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                            <span>🚌 Anakan Data: Armada Kendaraan (Unit Bus)</span>
+                            <span>Anakan Data: Armada Kendaraan (Unit Bus)</span>
                         </h3>
                         <p class="text-xs text-slate-400">
                             Daftar unit bus milik {{ $po->nama_po }} beserta nomor polisi dan kapasitas kursi
@@ -146,7 +149,7 @@
             <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 p-6 shadow-xs">
                 <div class="mb-4">
                     <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                        <span>👨‍✈️ Anakan Data: Supir (Driver PO)</span>
+                        <span>Anakan Data: Supir (Driver PO)</span>
                         <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">Read Only</span>
                     </h3>
                     <p class="text-xs text-slate-400 mt-0.5">
@@ -165,7 +168,7 @@
                                     </span>
                                 </div>
                                 <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
-                                    <span>📞 {{ $s->kontak ?? 'Belum ada kontak' }}</span>
+                                    <span>{{ $s->kontak ?? 'Belum ada kontak' }}</span>
                                 </div>
                                 @if($s->keterangan)
                                     <div class="text-[10px] text-slate-400 mt-0.5">
@@ -174,7 +177,7 @@
                                 @endif
                             </div>
                             <span class="text-[10px] px-2 py-1 rounded bg-slate-200/70 text-slate-600 font-medium">
-                                Tersambung ✓
+                                Tersambung
                             </span>
                         </div>
                     @empty
@@ -196,7 +199,7 @@
     <div id="modalKendaraan" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-slate-900">🚌 Tambah Unit Kendaraan Bus</h3>
+                <h3 class="text-base font-bold text-slate-900">Tambah Unit Kendaraan Bus</h3>
                 <button type="button" onclick="closeModal('modalKendaraan')" class="p-1 rounded-full text-slate-400 hover:text-slate-700 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>

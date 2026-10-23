@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 #[Fillable(['biro_id', 'nama_kegiatan', 'tgl_mulai', 'tgl_selesai', 'status'])]
 class TripPerjalanan extends Model
@@ -64,6 +65,28 @@ class TripPerjalanan extends Model
     public function fasilitas(): HasMany
     {
         return $this->hasMany(FasilitasPeserta::class, 'trip_id');
+    }
+
+    /**
+     * Menentukan status operasional otomatis berdasarkan tanggal jika tidak Dibatalkan (Cancelled).
+     */
+    public static function determineStatusByDates(mixed $tglMulai, mixed $tglSelesai, ?string $currentStatus = null): string
+    {
+        if ($currentStatus === 'Cancelled') {
+            return 'Cancelled';
+        }
+
+        $today = now()->startOfDay();
+        $start = Carbon::parse($tglMulai)->startOfDay();
+        $end = Carbon::parse($tglSelesai)->endOfDay();
+
+        if ($today->lt($start)) {
+            return 'Upcoming';
+        } elseif ($today->betweenIncluded($start, $end)) {
+            return 'Ongoing';
+        } else {
+            return 'Completed';
+        }
     }
 
     /**

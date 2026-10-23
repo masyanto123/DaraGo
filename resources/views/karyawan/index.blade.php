@@ -3,27 +3,86 @@
 @section('title', 'Data Master Karyawan & Crew')
 
 @section('content')
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span>Data Master</span>
-                <span>/</span>
-                <span class="text-slate-600">Karyawan & Crew</span>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-                Karyawan & Crew Lapangan
-            </h1>
-            <p class="text-xs text-slate-400 mt-0.5">
-                Kelola data akun dan penugasan tour leader, driver/supir, dan staf operasional
-            </p>
-        </div>
+    <!-- Hero Header Banner with Gradient -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-sky-500 p-6 sm:p-7 shadow-lg shadow-indigo-500/15 text-white">
+        <!-- Subtle Glow Background Decorative Shapes -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-sky-400/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <a href="{{ route('karyawan.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-[#223268] hover:bg-[#1a2754] text-white text-xs font-semibold rounded-xl shadow-xs transition duration-150 cursor-pointer self-start sm:self-auto">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Tambah Karyawan / Crew</span>
-        </a>
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-1.5 text-xs text-white/80 font-medium mb-1.5">
+                    <span>Data Master</span>
+                    <span>/</span>
+                    <span class="text-white font-semibold">Karyawan & Crew</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Karyawan & Crew Lapangan
+                </h1>
+                <p class="text-xs text-white/80 mt-1 max-w-xl">
+                    Kelola data akun dan penugasan tour leader, driver/supir, dan staf operasional
+                </p>
+            </div>
+
+            <a href="{{ route('karyawan.create') }}" class="inline-flex items-center px-4 py-2.5 bg-white/15 hover:bg-white/25 active:bg-white/30 backdrop-blur-md text-white text-xs font-semibold rounded-xl border border-white/20 shadow-sm transition duration-150 cursor-pointer self-start sm:self-auto hover:scale-[1.02]">
+                <span>Tambah Karyawan / Crew</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+        <form method="GET" action="{{ route('karyawan.index') }}" class="flex flex-col sm:flex-row gap-3">
+            <div class="relative grow">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    name="search" 
+                    value="{{ request('search') }}" 
+                    placeholder="Cari nama karyawan, driver, email, posisi..." 
+                    class="w-full pl-10 pr-3.5 py-2 text-xs bg-slate-50/50 border border-slate-200 rounded-xl text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition"
+                >
+            </div>
+
+            <!-- Filter Biro -->
+            <div class="w-full sm:w-56">
+                <select name="biro_id" onchange="this.form.submit()" class="w-full px-3 py-2 text-xs bg-slate-50/50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition">
+                    <option value="">-- Semua Biro Perjalanan --</option>
+                    @foreach($biros as $b)
+                        <option value="{{ $b->id }}" {{ request('biro_id') == $b->id ? 'selected' : '' }}>
+                            {{ $b->nama_biro }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Filter PO Bus -->
+            <div class="w-full sm:w-56">
+                <select name="po_id" onchange="this.form.submit()" class="w-full px-3 py-2 text-xs bg-slate-50/50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition">
+                    <option value="">-- Semua PO Bus (Driver) --</option>
+                    @foreach($pos as $p)
+                        <option value="{{ $p->id }}" {{ request('po_id') == $p->id ? 'selected' : '' }}>
+                            {{ $p->nama_po }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition cursor-pointer">
+                    Filter
+                </button>
+                @if(request()->hasAny(['search', 'biro_id', 'po_id']))
+                    <a href="{{ route('karyawan.index') }}" class="px-3 py-2 border border-slate-200 text-slate-500 hover:bg-slate-50 text-xs font-semibold rounded-xl transition">
+                        Reset
+                    </a>
+                @endif
+            </div>
+        </form>
     </div>
 
     <!-- Table Card -->
@@ -56,13 +115,13 @@
                             <td class="px-6 py-4 text-slate-700">
                                 @if($karyawan->po_id)
                                     <div class="flex items-center gap-1.5">
-                                        <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold text-[10px]">🚌 PO: {{ $karyawan->po?->nama_po }}</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold text-[10px]">PO: {{ $karyawan->po?->nama_po }}</span>
                                         @if($karyawan->supirPo)
                                             <span class="text-[9px] text-slate-400 font-mono">({{ $karyawan->supirPo->peran }})</span>
                                         @endif
                                     </div>
                                 @elseif($karyawan->biro_id)
-                                    <span class="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-[10px]">🏢 Biro: {{ $karyawan->biro?->nama_biro }}</span>
+                                    <span class="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-[10px]">Biro: {{ $karyawan->biro?->nama_biro }}</span>
                                 @else
                                     <span class="text-slate-400">-</span>
                                 @endif

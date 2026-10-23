@@ -12,11 +12,23 @@ class BiroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $biros = BiroPerjalanan::withCount(['karyawan', 'tripPerjalanan'])->latest()->paginate(10);
+        $search = $request->query('search');
 
-        return view('biro.index', compact('biros'));
+        $biros = BiroPerjalanan::withCount(['karyawan', 'tripPerjalanan'])
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama_biro', 'like', "%{$search}%")
+                      ->orWhere('alamat', 'like', "%{$search}%")
+                      ->orWhere('kontak', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('biro.index', compact('biros', 'search'));
     }
 
     /**

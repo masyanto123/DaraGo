@@ -37,4 +37,12 @@ class PoBus extends Model
     {
         return $this->hasMany(ArmadaBus::class, 'po_id');
     }
+
+    /**
+     * @return HasMany<Karyawan, $this>
+     */
+    public function karyawan(): HasMany
+    {
+        return $this->hasMany(Karyawan::class, 'po_id');
+    }
 }

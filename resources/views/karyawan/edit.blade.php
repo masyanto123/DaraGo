@@ -32,7 +32,7 @@
                         <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
                             <input type="radio" name="kategori_personil" value="karyawan_biro" onchange="toggleKategoriPersonil()" {{ ! $isDriver ? 'checked' : '' }} class="text-indigo-600 focus:ring-indigo-500">
                             <div class="ml-3">
-                                <span class="block text-xs font-bold text-slate-900">🏢 Karyawan / Staf Biro</span>
+                                <span class="block text-xs font-bold text-slate-900">Karyawan / Staf Biro</span>
                                 <span class="block text-[10px] text-slate-500">Tour Leader, Admin & Staf Biro</span>
                             </div>
                         </label>
@@ -40,7 +40,7 @@
                         <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
                             <input type="radio" name="kategori_personil" value="driver_po" onchange="toggleKategoriPersonil()" {{ $isDriver ? 'checked' : '' }} class="text-indigo-600 focus:ring-indigo-500">
                             <div class="ml-3">
-                                <span class="block text-xs font-bold text-slate-900">🚌 Karyawan PO Bus</span>
+                                <span class="block text-xs font-bold text-slate-900">Karyawan PO Bus</span>
                                 <span class="block text-[10px] text-slate-500">Admin PO, Supir Utama & Co-Supir</span>
                             </div>
                         </label>

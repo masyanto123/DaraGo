@@ -18,11 +18,34 @@ class KaryawanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $karyawans = Karyawan::with(['user', 'biro', 'po', 'supirPo'])->latest()->paginate(10);
+        $query = Karyawan::with(['user', 'biro', 'po', 'supirPo']);
 
-        return view('karyawan.index', compact('karyawans'));
+        if ($request->filled('search')) {
+            $search = $request->string('search');
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('user', function ($uq) use ($search) {
+                    $uq->where('name', 'ilike', "%{$search}%")
+                        ->orWhere('email', 'ilike', "%{$search}%")
+                        ->orWhere('no_hp', 'ilike', "%{$search}%");
+                })->orWhere('posisi', 'ilike', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('biro_id')) {
+            $query->where('biro_id', $request->integer('biro_id'));
+        }
+
+        if ($request->filled('po_id')) {
+            $query->where('po_id', $request->integer('po_id'));
+        }
+
+        $karyawans = $query->latest()->paginate(10)->withQueryString();
+        $biros = BiroPerjalanan::orderBy('nama_biro')->get();
+        $pos = PoBus::orderBy('nama_po')->get();
+
+        return view('karyawan.index', compact('karyawans', 'biros', 'pos'));
     }
 
     /**

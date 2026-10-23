@@ -42,13 +42,21 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                     <span>{{ $trip->nama_kegiatan }}</span>
                     @if($trip->status === 'Ongoing')
-                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-xs border border-emerald-200">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-xs border border-emerald-200">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Sedang Berjalan
+                            Sedang Berjalan (Ongoing)
                         </span>
                     @elseif($trip->status === 'Upcoming')
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold text-xs border border-blue-200">
-                            Mendatang
+                            Mendatang (Upcoming)
+                        </span>
+                    @elseif($trip->status === 'Completed')
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200">
+                            Selesai (Completed)
+                        </span>
+                    @elseif($trip->status === 'Cancelled')
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold text-xs border border-rose-200">
+                            Dibatalkan (Cancelled)
                         </span>
                     @else
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold text-xs">
@@ -130,7 +138,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <div>
                         <h3 class="text-sm font-bold text-slate-900">
-                            📋 Manifest & Presensi Peserta
+                            Manifest & Presensi Peserta
                         </h3>
                         <p class="text-xs text-slate-400">
                             Daftar pembagian kursi bus dan checklist presensi realtime
@@ -174,14 +182,14 @@
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <form method="POST" action="{{ route('manifest.presensi', $m) }}">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold transition cursor-pointer {{ $m->status_presensi ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-red-100 text-red-800 hover:bg-red-200' }}" title="Klik untuk ubah presensi">
-                                                <span>{{ $m->status_presensi ? '✓ Hadir' : '✕ Belum Hadir' }}</span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                    <td class="px-4 py-3 text-right">
+                                             @csrf
+                                             @method('PATCH')
+                                             <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold transition cursor-pointer {{ $m->status_presensi ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-red-100 text-red-800 hover:bg-red-200' }}" title="Klik untuk ubah presensi">
+                                                 <span>{{ $m->status_presensi ? 'Hadir' : 'Belum Hadir' }}</span>
+                                             </button>
+                                         </form>
+                                     </td>
+                                     <td class="px-4 py-3 text-right">
                                         <form method="POST" action="{{ route('trip.manifest.destroy', $m) }}" onsubmit="return confirm('Hapus peserta ini dari manifest?')">
                                             @csrf
                                             @method('DELETE')
@@ -210,7 +218,7 @@
                 <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-bold text-slate-900">
-                            🚌 Armada Bus
+                            Armada Bus
                         </h3>
                         <button type="button" onclick="openModal('modalArmada')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
@@ -233,7 +241,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="text-[11px] text-slate-500 font-medium">🏢 {{ $bus->po?->nama_po ?? $bus->nama_po ?? 'PO Pariwisata' }}</div>
+                                <div class="text-[11px] text-slate-500 font-medium">{{ $bus->po?->nama_po ?? $bus->nama_po ?? 'PO Pariwisata' }}</div>
                                 <div class="mt-2 pt-2 border-t border-slate-200/60 text-[10px] text-slate-400 flex items-center justify-between">
                                     <span>Driver: <strong class="text-slate-700">{{ $bus->nama_driver }}</strong></span>
                                     <span>TL: <strong class="text-slate-700">{{ $bus->tourLeader?->user?->name ?? '-' }}</strong></span>
@@ -249,7 +257,7 @@
                 <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-bold text-slate-900">
-                            📅 Jadwal Acara (Itinerary)
+                            Jadwal Acara (Itinerary)
                         </h3>
                         @if($trip->jadwalAcara->isEmpty())
                             <button type="button" onclick="openModal('modalJadwal')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition cursor-pointer">
@@ -273,11 +281,11 @@
                                     </div>
                                     <div>
                                         <div class="font-bold text-slate-800">{{ $acara->kegiatan }}</div>
-                                        <div class="text-[11px] text-indigo-600 font-medium">📍 {{ $acara->destinasi?->nama_tempat ?? ($acara->latitude ? 'Titik Terkoordinasi Peta' : 'Lokasi Terbuka') }}</div>
+                                        <div class="text-[11px] text-indigo-600 font-medium">{{ $acara->destinasi?->nama_tempat ?? ($acara->latitude ? 'Titik Terkoordinasi Peta' : 'Lokasi Terbuka') }}</div>
                                         <div class="text-[10px] text-slate-400 mt-0.5">{{ $acara->waktu_mulai->format('d M, H:i') }} - {{ $acara->waktu_selesai->format('H:i') }} WIB</div>
                                         @if($acara->latitude && $acara->longitude)
                                             <a href="https://www.google.com/maps/search/?api=1&query={{ $acara->latitude }},{{ $acara->longitude }}" target="_blank" class="inline-flex items-center gap-1 text-[10px] text-teal-600 hover:text-teal-700 hover:underline font-semibold mt-0.5">
-                                                <span>Buka di Peta Navigasi ↗</span>
+                                                <span>Buka di Peta Navigasi</span>
                                             </a>
                                         @endif
                                     </div>
@@ -301,7 +309,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                                <span>🗺️ Peta Rute Perjalanan</span>
+                                <span>Peta Rute Perjalanan</span>
                             </h3>
                             <p class="text-[11px] text-slate-400">Jalur rute kronologis itinerary agenda trip</p>
                         </div>
@@ -416,7 +424,7 @@
         <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                    <span>🚌 Tambah Armada Bus ke Trip</span>
+                    <span>Tambah Armada Bus ke Trip</span>
                 </h3>
                 <button type="button" onclick="closeModal('modalArmada')" class="p-1 rounded-full text-slate-400 hover:text-slate-700 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -428,7 +436,9 @@
                 <!-- Trip Schedule & Biro Context Banner -->
                 <div class="p-3 rounded-2xl bg-indigo-50/60 border border-indigo-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-slate-700">
                     <div class="flex items-center gap-2">
-                        <span class="p-1.5 rounded-xl bg-white text-indigo-600 shadow-2xs font-bold text-xs">📅</span>
+                        <span class="p-1.5 rounded-xl bg-white text-indigo-600 shadow-2xs font-bold text-xs">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+                        </span>
                         <div>
                             <div class="text-[10px] text-indigo-500 font-semibold uppercase tracking-wider">Jadwal Berlangsung Trip</div>
                             <div class="text-xs font-bold text-slate-900">{{ $trip->tgl_mulai ? $trip->tgl_mulai->format('d M Y') : '-' }} s/d {{ $trip->tgl_selesai ? $trip->tgl_selesai->format('d M Y') : '-' }}</div>
@@ -497,14 +507,17 @@
                             <option value="">-- Pilih Tour Leader --</option>
                             @forelse($tourLeaderList as $k)
                                 @php
+                                    $isAlreadyInTrip = in_array($k->id, $alreadyInTripTourLeaderIds ?? []);
                                     $isBusy = isset($busyTourLeaders[$k->id]);
                                     $conflictInfo = $isBusy ? $busyTourLeaders[$k->id] : null;
                                 @endphp
-                                <option value="{{ $k->id }}" {{ $isBusy ? 'disabled' : '' }} class="{{ $isBusy ? 'text-slate-400 bg-slate-100' : 'text-slate-800' }}">
-                                    @if($isBusy)
-                                        ⚠️ {{ $k->user?->name }} ({{ $k->posisi }}) — [Sedang Bertugas: {{ $conflictInfo['trip_name'] }}]
+                                <option value="{{ $k->id }}" {{ $isAlreadyInTrip || $isBusy ? 'disabled' : '' }} class="{{ $isAlreadyInTrip || $isBusy ? 'text-slate-400 bg-slate-100' : 'text-slate-800' }}">
+                                    @if($isAlreadyInTrip)
+                                        {{ $k->user?->name }} ({{ $k->posisi }}) — (Sudah Memimpin Bus Lain di Trip Ini)
+                                    @elseif($isBusy)
+                                        {{ $k->user?->name }} ({{ $k->posisi }}) — [Sedang Bertugas: {{ $conflictInfo['trip_name'] }}]
                                     @else
-                                        ✓ {{ $k->user?->name }} ({{ $k->posisi }})
+                                        {{ $k->user?->name }} ({{ $k->posisi }}) - Tersedia
                                     @endif
                                 </option>
                             @empty
@@ -549,7 +562,9 @@
                 <div id="jadwalValidationAlert" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2.5">
                     <svg class="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
                     <div id="jadwalValidationMessage" class="font-medium grow"></div>
-                    <button type="button" onclick="hideJadwalAlert()" class="text-rose-400 hover:text-rose-600 font-bold ml-1">✕</button>
+                    <button type="button" onclick="hideJadwalAlert()" class="p-1 text-rose-400 hover:text-rose-600 rounded-md transition ml-1" title="Tutup">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
                 </div>
 
                 <!-- Google Maps Route Input Container -->
@@ -570,7 +585,7 @@
                 <!-- Modal Actions -->
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
                     <div class="text-[11px] text-slate-400">
-                        💡 <span id="stopCountText">0 tujuan ditambahkan</span>
+                        <span id="stopCountText">0 tujuan ditambahkan</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="closeModal('modalJadwal')" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-50 transition cursor-pointer">Batal</button>
@@ -585,7 +600,7 @@
     <div id="modalManifest" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-slate-900">📋 Tambah Peserta ke Manifest</h3>
+                <h3 class="text-base font-bold text-slate-900">Tambah Peserta ke Manifest</h3>
                 <button type="button" onclick="closeModal('modalManifest')" class="p-1 rounded-full text-slate-400 hover:text-slate-700 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
@@ -816,11 +831,11 @@
                                 <div id="coord_badge_${index}" class="shrink-0">
                                     ${(stop.latitude && stop.longitude) ? `
                                         <span class="inline-flex items-center gap-1 text-[9px] text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded font-semibold border border-teal-100" title="Koordinat: ${stop.latitude}, ${stop.longitude}">
-                                            📍 Terhubung Peta (${Number(stop.latitude).toFixed(3)}, ${Number(stop.longitude).toFixed(3)})
+                                            Terhubung Peta (${Number(stop.latitude).toFixed(3)}, ${Number(stop.longitude).toFixed(3)})
                                         </span>
                                     ` : `
                                         <span class="inline-flex items-center gap-1 text-[9px] text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded font-medium border border-slate-200">
-                                            📍 Lokasi Kustom
+                                            Lokasi Kustom
                                         </span>
                                     `}
                                 </div>
@@ -846,7 +861,6 @@
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 text-[11px]">
                                 <!-- Jam Inputs -->
                                 <div class="flex items-center gap-1.5 shrink-0 ${isConflict ? 'bg-amber-100/70 border-amber-300 ring-1 ring-amber-300' : 'bg-slate-50 border-slate-200'} px-2 py-1 rounded-xl border transition">
-                                    <span class="text-slate-400 text-[10px] font-semibold">🕒</span>
                                     <input type="time" 
                                         name="stops[${index}][jam_mulai]" 
                                         id="jam_mulai_${index}"
@@ -883,7 +897,7 @@
                             ${isConflict ? `
                                 <div class="flex flex-wrap items-center justify-between gap-1 text-[10px] bg-amber-50 px-2 py-1 rounded-lg border border-amber-200">
                                     <span class="text-amber-800 font-semibold">
-                                        ⚠️ Jam mulai (${stop.jam_mulai}) bentrok! Agenda #${index} selesai pukul <strong>${prevEndTime}</strong>.
+                                        Peringatan: Jam mulai (${stop.jam_mulai}) bentrok! Agenda #${index} selesai pukul <strong>${prevEndTime}</strong>.
                                     </span>
                                     <button type="button" 
                                         onclick="adjustStopStartTime(${index}, '${prevEndTime}')" 
@@ -900,7 +914,7 @@
 
                     </div>
 
-                    <!-- Remove Button (Matching Google Maps ✕ Icon) -->
+                    <!-- Remove Button -->
                     <button type="button" 
                         onclick="removeJadwalStop(${index})" 
                         class="p-1 rounded-full text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer shrink-0 mt-2 ${jadwalStops.length <= 1 ? 'hidden' : ''}" 
@@ -971,7 +985,7 @@
                             <div class="p-2.5 hover:bg-teal-50 cursor-pointer flex items-center gap-2.5 transition text-left" 
                                 onclick="selectLocationOption(${index}, '${escapeQuotes(title)}', '${item.id}', ${latVal}, ${lngVal})">
                                 <div class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 text-xs">
-                                    🏖️
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
                                 </div>
                                 <div class="overflow-hidden">
                                     <div class="text-xs font-bold text-slate-800 truncate">${title}</div>
@@ -995,7 +1009,7 @@
                             <div class="p-2.5 hover:bg-slate-50 cursor-pointer flex items-center gap-2.5 transition text-left" 
                                 onclick="selectLocationOption(${index}, '${escapeQuotes(mainTitle)}', null, ${latVal}, ${lonVal})">
                                 <div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 text-xs">
-                                    📍
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
                                 </div>
                                 <div class="overflow-hidden">
                                     <div class="text-xs font-semibold text-slate-800 truncate">${mainTitle}</div>
@@ -1010,7 +1024,7 @@
                 if (!html) {
                     html = `
                         <div class="p-3 text-center text-xs text-slate-600 hover:bg-slate-100 cursor-pointer font-medium transition" onclick="selectLocationOption(${index}, '${escapeQuotes(query)}', null, null, null)">
-                            ✓ Gunakan "<strong>${query}</strong>" sebagai nama lokasi kustom
+                            Gunakan "<strong>${query}</strong>" sebagai nama lokasi kustom
                         </div>
                     `;
                 }
@@ -1058,10 +1072,10 @@
             const stop = jadwalStops[index];
             if (stop && stop.latitude && stop.longitude) {
                 badge.className = 'shrink-0';
-                badge.innerHTML = `<span class="inline-flex items-center gap-1 text-[9px] text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded font-semibold border border-teal-100" title="Koordinat: ${stop.latitude}, ${stop.longitude}">📍 Terhubung Peta (${Number(stop.latitude).toFixed(3)}, ${Number(stop.longitude).toFixed(3)})</span>`;
+                badge.innerHTML = `<span class="inline-flex items-center gap-1 text-[9px] text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded font-semibold border border-teal-100" title="Koordinat: ${stop.latitude}, ${stop.longitude}">Terhubung Peta (${Number(stop.latitude).toFixed(3)}, ${Number(stop.longitude).toFixed(3)})</span>`;
             } else {
                 badge.className = 'shrink-0';
-                badge.innerHTML = `<span class="inline-flex items-center gap-1 text-[9px] text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded font-medium border border-slate-200">📍 Lokasi Kustom</span>`;
+                badge.innerHTML = `<span class="inline-flex items-center gap-1 text-[9px] text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded font-medium border border-slate-200">Lokasi Kustom</span>`;
             }
         }
 
@@ -1181,15 +1195,15 @@
 
                         if (isAlreadyInTrip) {
                             opt.disabled = true;
-                            opt.textContent = `🚫 ${k.nomor_bus}${plat} — (Sudah Dialokasikan di Trip Ini)`;
+                            opt.textContent = `${k.nomor_bus}${plat} — (Sudah Dialokasikan di Trip Ini)`;
                             opt.className = 'text-slate-400 bg-slate-100';
                         } else if (isBusy) {
                             opt.disabled = true;
-                            opt.textContent = `⚠️ ${k.nomor_bus}${plat} — [Sedang Bertugas di "${isBusy.trip_name}"]`;
+                            opt.textContent = `${k.nomor_bus}${plat} — [Sedang Bertugas di "${isBusy.trip_name}"]`;
                             opt.className = 'text-amber-700 bg-amber-50 font-medium';
                         } else {
                             availableKendaraanCount++;
-                            opt.textContent = `✓ ${k.nomor_bus}${plat} - ${k.tipe_bus || 'Bus'}${seat} (Tersedia)`;
+                            opt.textContent = `${k.nomor_bus}${plat} - ${k.tipe_bus || 'Bus'}${seat} (Tersedia)`;
                             opt.className = 'text-slate-800 font-semibold';
                         }
 
@@ -1197,10 +1211,10 @@
                     });
 
                     if (availableKendaraanCount > 0) {
-                        badge.textContent = `🟢 ${availableKendaraanCount} dari ${kList.length} unit bus siap bertugas`;
+                        badge.textContent = `${availableKendaraanCount} dari ${kList.length} unit bus siap bertugas`;
                         badge.className = 'text-[10px] text-emerald-600 font-bold';
                     } else {
-                        badge.textContent = `🔴 0 dari ${kList.length} unit tersedia (Semua bus sedang bertugas pada tanggal ini)`;
+                        badge.textContent = `0 dari ${kList.length} unit tersedia (Semua bus sedang bertugas pada tanggal ini)`;
                         badge.className = 'text-[10px] text-rose-600 font-bold';
                     }
 
@@ -1225,14 +1239,14 @@
 
                         if (isAlreadyInTrip) {
                             opt.disabled = true;
-                            opt.textContent = `🚫 ${s.nama_supir}${peran} — (Sudah Terdaftar di Trip Ini)`;
+                            opt.textContent = `${s.nama_supir}${peran} — (Sudah Terdaftar di Trip Ini)`;
                             opt.className = 'text-slate-400 bg-slate-100';
                         } else if (isBusy) {
                             opt.disabled = true;
-                            opt.textContent = `⚠️ ${s.nama_supir}${peran} — [Sedang Bertugas di "${isBusy.trip_name}"]`;
+                            opt.textContent = `${s.nama_supir}${peran} — [Sedang Bertugas di "${isBusy.trip_name}"]`;
                             opt.className = 'text-amber-700 bg-amber-50 font-medium';
                         } else {
-                            opt.textContent = `✓ ${s.nama_supir}${peran}${phone} (Tersedia)`;
+                            opt.textContent = `${s.nama_supir}${peran}${phone} (Tersedia)`;
                             opt.className = 'text-slate-800';
                         }
 
@@ -1281,7 +1295,7 @@
             const code = document.getElementById('joinCodeText').innerText;
             navigator.clipboard.writeText(code).then(() => {
                 const copyText = document.getElementById('copyBtnText');
-                copyText.innerText = 'Tersalin! ✓';
+                copyText.innerText = 'Tersalin!';
                 setTimeout(() => copyText.innerText = 'Salin Kode', 2000);
             });
         }
@@ -1331,7 +1345,7 @@
             mapEl.style.color = '#94a3b8';
             mapEl.style.fontSize = '11px';
             mapEl.style.padding = '20px';
-            mapEl.innerHTML = '<span style="font-size:2rem">🗺️</span><span style="text-align:center">Belum ada titik agenda dengan koordinat peta.<br>Pilih lokasi dari hasil pencarian OSM saat mengisi jadwal acara.</span>';
+            mapEl.innerHTML = '<span style="text-align:center">Belum ada titik agenda dengan koordinat peta.<br>Pilih lokasi dari hasil pencarian OSM saat mengisi jadwal acara.</span>';
             renderRouteNotice();
             return;
         }
@@ -1368,7 +1382,7 @@
             });
 
             const jamInfo = (stop.jam_mulai && stop.jam_selesai)
-                ? `⏱ ${stop.jam_mulai} – ${stop.jam_selesai} WIB`
+                ? `${stop.jam_mulai} – ${stop.jam_selesai} WIB`
                 : '';
             const descPart = stop.deskripsi
                 ? `<div style="font-size:11px;color:#64748b;margin-top:2px">${stop.deskripsi}</div>`
@@ -1463,11 +1477,11 @@
         const linkedStops = routeWaypoints.length;
 
         if (linkedStops === 0) {
-            noticeEl.innerHTML = '<span style="color:#f59e0b">⚠️ Tidak ada titik agenda yang terhubung ke peta. Pilih lokasi dari pencarian OSM saat menyimpan jadwal.</span>';
+            noticeEl.innerHTML = '<span style="color:#f59e0b">Tidak ada titik agenda yang terhubung ke peta. Pilih lokasi dari pencarian OSM saat menyimpan jadwal.</span>';
         } else if (linkedStops < totalStops) {
-            noticeEl.innerHTML = `<span style="color:#d97706">⚠️ ${totalStops - linkedStops} dari ${totalStops} agenda belum memiliki koordinat peta. Perbarui jadwal dan pilih lokasi melalui pencarian untuk melengkapinya.</span>`;
+            noticeEl.innerHTML = `<span style="color:#d97706">${totalStops - linkedStops} dari ${totalStops} agenda belum memiliki koordinat peta. Perbarui jadwal dan pilih lokasi melalui pencarian untuk melengkapinya.</span>`;
         } else {
-            noticeEl.innerHTML = `<span style="color:#0f766e">✓ Semua ${linkedStops} titik agenda terhubung ke peta rute.</span>`;
+            noticeEl.innerHTML = `<span style="color:#0f766e">Semua ${linkedStops} titik agenda terhubung ke peta rute.</span>`;
         }
     }
 

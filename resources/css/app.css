@@ -1,9 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+/* Glassmorphism and modern gradient utilities */
+.glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Flux primary button theme override */
+.btn-flux-primary,
+button.bg-\[\#223268\],
+a.bg-\[\#223268\] {
+    background-color: #7c3aed !important;
+    background-image: linear-gradient(to right, #7c3aed, #6366f1) !important;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25) !important;
+}
+
+button.bg-\[\#223268\]:hover,
+a.bg-\[\#223268\]:hover {
+    background-color: #6d28d9 !important;
+    background-image: linear-gradient(to right, #6d28d9, #4f46e5) !important;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35) !important;
+}
+
+/* Custom smooth scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ========================================================================= */
+/* COMPLETE FLUX DARK MODE STYLING                                           */
+/* ========================================================================= */
+html.dark,
+html.dark body {
+    background-color: #0b0f19 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Topbar & Header */
+html.dark header {
+    background-color: rgba(15, 23, 42, 0.95) !important;
+    border-color: #1e293b !important;
+}
+
+/* Sidebar & Borders */
+html.dark aside#mainSidebar {
+    background-color: #0f172a !important;
+    border-color: #1e293b !important;
+}
+
+html.dark aside#mainSidebar .border-b,
+html.dark aside#mainSidebar .border-t {
+    border-color: #1e293b !important;
+}
+
+/* Sidebar Bottom Profile card */
+html.dark aside#mainSidebar .bg-white {
+    background-color: #0f172a !important;
+}
+
+/* Cards & Containers */
+html.dark .bg-white {
+    background-color: #111827 !important;
+    border-color: #1f2937 !important;
+    color: #e2e8f0;
+}
+
+/* Sub-card Slate surfaces (e.g. inner cards, table alternate rows) */
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/50,
+html.dark .bg-slate-50\/60,
+html.dark .bg-slate-50\/80 {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Text adaptations */
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+    color: #f8fafc !important;
+}
+
+html.dark .text-slate-700 {
+    color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-600 {
+    color: #94a3b8 !important;
+}
+
+html.dark .text-slate-500,
+html.dark .text-slate-400 {
+    color: #64748b !important;
+}
+
+/* Dividers & Borders */
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-200\/70,
+html.dark .border-slate-200\/60 {
+    border-color: #1f2937 !important;
+}
+
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #1f2937 !important;
+}
+
+/* Table header & hover states */
+html.dark thead {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+html.dark tr.hover\:bg-slate-50\/50:hover,
+html.dark tr:hover {
+    background-color: rgba(30, 41, 59, 0.7) !important;
+}
+
+/* Form Inputs & Selects */
+html.dark input:not([type="radio"]):not([type="checkbox"]),
+html.dark select,
+html.dark textarea {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+html.dark input::placeholder {
+    color: #64748b !important;
+}
+
+/* Search bar input */
+html.dark #globalSearchInput {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f8fafc !important;
+}
+
+/* Modals */
+html.dark .bg-white.rounded-3xl,
+html.dark .bg-white.rounded-2xl {
+    background-color: #111827 !important;
+    border-color: #1f2937 !important;
+}
+
+/* Dropdown menus */
+html.dark #quickActionMenu {
+    background-color: #111827 !important;
+    border-color: #1f2937 !important;
+}
+
+html.dark #quickActionMenu a {
+    color: #e2e8f0 !important;
+}
+
+html.dark #quickActionMenu a:hover {
+    background-color: #1e293b !important;
+}
+
+
+

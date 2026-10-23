@@ -50,7 +50,7 @@
                                 <div class="text-[11px] text-slate-400">{{ $peserta->user?->email }} • {{ $peserta->user?->no_hp ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4 font-medium text-slate-800">
-                                🏫 {{ $peserta->nama_instansi }}
+                                {{ $peserta->nama_instansi }}
                             </td>
                             <td class="px-6 py-4 text-slate-600">
                                 {{ $peserta->kontak_darurat ?? '-' }}

@@ -53,22 +53,11 @@
                     </div>
                 </div>
 
-                <div>
-                    <label for="status" class="block text-xs font-semibold text-slate-700 mb-1">Status Operasional <span class="text-red-500">*</span></label>
-                    <select name="status" id="status" required class="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border @error('status') border-red-300 @else border-slate-200 @enderror rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition">
-                        <option value="Upcoming" {{ old('status') === 'Upcoming' ? 'selected' : '' }}>Mendatang (Upcoming)</option>
-                        <option value="Ongoing" {{ old('status') === 'Ongoing' ? 'selected' : '' }}>Sedang Berjalan (Ongoing)</option>
-                        <option value="Completed" {{ old('status') === 'Completed' ? 'selected' : '' }}>Selesai (Completed)</option>
-                        <option value="Cancelled" {{ old('status') === 'Cancelled' ? 'selected' : '' }}>Dibatalkan (Cancelled)</option>
-                    </select>
-                    @error('status') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
-                </div>
-
                 <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
                     <a href="{{ route('trip.index') }}" class="px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition">
                         Batal
                     </a>
-                    <button type="submit" class="px-5 py-2 bg-[#223268] hover:bg-[#1a2754] text-white text-xs font-semibold rounded-xl shadow-xs transition cursor-pointer">
+                    <button type="submit" class="px-5 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-xs font-semibold rounded-xl shadow-sm transition cursor-pointer">
                         Simpan & Atur Operasional
                     </button>
                 </div>

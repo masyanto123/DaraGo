@@ -6,13 +6,10 @@ use App\Models\ArmadaBus;
 use App\Models\BiroPerjalanan;
 use App\Models\DestinasiWisata;
 use App\Models\DokumentasiTrip;
-use App\Models\FasilitasPeserta;
 use App\Models\JadwalAcara;
 use App\Models\Karyawan;
 use App\Models\LogLokasi;
-use App\Models\ManifestPeserta;
 use App\Models\PengumumanLivechat;
-use App\Models\PesertaKlien;
 use App\Models\TripPerjalanan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -53,7 +50,8 @@ class MasterDataSeeder extends Seeder
             ]
         );
 
-        // 2. DESTINASI WISATA (Master Data)
+        // 2. DESTINASI WISATA (Master Data) - DI-HIDE SEMENTARA DARI SEEDER
+        /*
         $destinasiList = [
             [
                 'nama_tempat' => 'Candi Borobudur',
@@ -99,13 +97,13 @@ class MasterDataSeeder extends Seeder
             ],
         ];
 
-        $createdDestinasi = [];
         foreach ($destinasiList as $dest) {
-            $createdDestinasi[] = DestinasiWisata::updateOrCreate(
+            DestinasiWisata::updateOrCreate(
                 ['nama_tempat' => $dest['nama_tempat']],
                 $dest
             );
         }
+        */
 
         // 3. USERS & KARYAWAN (Tour Leader & Supir)
         $crewData = [
@@ -169,89 +167,6 @@ class MasterDataSeeder extends Seeder
                 [
                     'biro_id' => $crew['biro_id'],
                     'posisi' => $crew['posisi'],
-                ]
-            );
-        }
-
-        // 4. USERS & PESERTA KLIEN (Master Data Peserta)
-        $pesertaData = [
-            [
-                'name' => 'Ardiasnyah Candra Nugraha',
-                'email' => 'ardiansyah.candra@gmail.com',
-                'no_hp' => '085711223344',
-                'nama_instansi' => 'SMA Negeri 1 Yogyakarta',
-                'kontak_darurat' => '081233445566 (Ibu Ratna)',
-                'catatan_medis' => 'Alergi seafood ringan, membawa inhaler asma',
-            ],
-            [
-                'name' => 'Taufik Hidayat',
-                'email' => 'taufikharkat@gmail.com',
-                'no_hp' => '085722334455',
-                'nama_instansi' => 'SMA Negeri 1 Yogyakarta',
-                'kontak_darurat' => '081344556677 (Bpk. Bambang)',
-                'catatan_medis' => 'Tidak ada riwayat penyakit',
-            ],
-            [
-                'name' => 'Harkat Mahesa',
-                'email' => 'harkat@gmail.com',
-                'no_hp' => '085733445566',
-                'nama_instansi' => 'Universitas Gadjah Mada',
-                'kontak_darurat' => '081566778899 (Keluarga)',
-                'catatan_medis' => 'Vegetarian, alergi dingin',
-            ],
-            [
-                'name' => 'Ferguso Wijaya',
-                'email' => 'ferguso@gmail.com',
-                'no_hp' => '085744556677',
-                'nama_instansi' => 'PT Telkom Indonesia Divre IV',
-                'kontak_darurat' => '081677889900 (Kantor HRD)',
-                'catatan_medis' => 'Sehat prima',
-            ],
-            [
-                'name' => 'Apriadi Kusuma',
-                'email' => 'apriadi00@gmail.com',
-                'no_hp' => '085755667788',
-                'nama_instansi' => 'PT Telkom Indonesia Divre IV',
-                'kontak_darurat' => '081788990011 (Istri)',
-                'catatan_medis' => 'Riwayat maag akut (wajib makan teratur)',
-            ],
-            [
-                'name' => 'Nabila Putri Larasati',
-                'email' => 'nabila.larasati@gmail.com',
-                'no_hp' => '085766778899',
-                'nama_instansi' => 'Komunitas Traveler Nusantara',
-                'kontak_darurat' => '081899001122 (Kakak)',
-                'catatan_medis' => 'Mabuk perjalanan darat jika duduk di baris belakang',
-            ],
-            [
-                'name' => 'Dimas Arya Pratama',
-                'email' => 'dimas.arya@gmail.com',
-                'no_hp' => '085777889900',
-                'nama_instansi' => 'RS Siloam Hospitality Group',
-                'kontak_darurat' => '081900112233 (Orang Tua)',
-                'catatan_medis' => 'Tidak ada catatan khusus',
-            ],
-        ];
-
-        $pesertaCreated = [];
-        foreach ($pesertaData as $peserta) {
-            $u = User::updateOrCreate(
-                ['email' => $peserta['email']],
-                [
-                    'name' => $peserta['name'],
-                    'password' => Hash::make('Password123!'),
-                    'role' => 'user',
-                    'no_hp' => $peserta['no_hp'],
-                    'email_verified_at' => now(),
-                ]
-            );
-
-            $pesertaCreated[] = PesertaKlien::updateOrCreate(
-                ['user_id' => $u->id],
-                [
-                    'nama_instansi' => $peserta['nama_instansi'],
-                    'kontak_darurat' => $peserta['kontak_darurat'],
-                    'catatan_medis' => $peserta['catatan_medis'],
                 ]
             );
         }
@@ -322,43 +237,14 @@ class MasterDataSeeder extends Seeder
             ]
         );
 
-        // 7. MANIFEST PESERTA
-        $seatNumbers = ['01A', '01B', '02A', '02B', '03A', '03B', '04A'];
-        foreach ($pesertaCreated as $idx => $pk) {
-            $armadaChosen = ($idx % 2 === 0) ? $armada1 : $armada2;
-            ManifestPeserta::updateOrCreate(
-                [
-                    'trip_id' => $trip1->id,
-                    'peserta_id' => $pk->id,
-                ],
-                [
-                    'armada_id' => $armadaChosen->id,
-                    'nomor_kursi' => $seatNumbers[$idx] ?? '10A',
-                    'status_presensi' => true,
-                ]
-            );
-
-            // 8. FASILITAS PESERTA
-            FasilitasPeserta::updateOrCreate(
-                [
-                    'trip_id' => $trip1->id,
-                    'peserta_id' => $pk->id,
-                    'kategori' => 'Konsumsi & Akomodasi',
-                ],
-                [
-                    'detail_fasilitas' => 'Hotel Grand Mercure Room Deluxe Twin Bed + Makan Prasmanan 3x Sehari',
-                ]
-            );
-        }
-
         // 9. JADWAL ACARA (Itinerary)
         JadwalAcara::updateOrCreate(
             [
                 'trip_id' => $trip1->id,
-                'destinasi_id' => $createdDestinasi[0]->id, // Borobudur
                 'kegiatan' => 'Kunjungan Edukasi & Sunrise Tour Candi Borobudur',
             ],
             [
+                'destinasi_id' => null,
                 'waktu_mulai' => '2026-09-25 05:30:00',
                 'waktu_selesai' => '2026-09-25 09:30:00',
             ]
@@ -367,10 +253,10 @@ class MasterDataSeeder extends Seeder
         JadwalAcara::updateOrCreate(
             [
                 'trip_id' => $trip1->id,
-                'destinasi_id' => $createdDestinasi[1]->id, // Prambanan
                 'kegiatan' => 'Eksplorasi Sejarah Candi Prambanan & Pagelaran Ramayana',
             ],
             [
+                'destinasi_id' => null,
                 'waktu_mulai' => '2026-09-25 14:00:00',
                 'waktu_selesai' => '2026-09-25 18:00:00',
             ]

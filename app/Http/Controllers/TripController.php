@@ -53,8 +53,13 @@ class TripController extends Controller
             'nama_kegiatan' => ['required', 'string', 'max:255'],
             'tgl_mulai' => ['required', 'date'],
             'tgl_selesai' => ['required', 'date', 'after_or_equal:tgl_mulai'],
-            'status' => ['required', 'in:Upcoming,Ongoing,Completed,Cancelled'],
         ]);
+
+        // Status ditentukan 100% otomatis berdasarkan tanggal mulai & selesai
+        $validated['status'] = TripPerjalanan::determineStatusByDates(
+            $validated['tgl_mulai'],
+            $validated['tgl_selesai']
+        );
 
         $trip = TripPerjalanan::create($validated);
 
@@ -126,6 +131,7 @@ class TripController extends Controller
         // ID resource yang sudah dialokasikan pada trip ini sendiri
         $alreadyInTripKendaraanIds = $trip->armada->pluck('kendaraan_id')->filter()->values()->all();
         $alreadyInTripSupirPoIds = $trip->armada->pluck('supir_po_id')->filter()->values()->all();
+        $alreadyInTripTourLeaderIds = $trip->armada->pluck('tour_leader_id')->filter()->values()->all();
 
         // Filter Tour Leader khusus karyawan Biro penyelenggara Trip (bukan supir PO / driver)
         $tourLeaderQuery = Karyawan::with(['user', 'biro'])
@@ -153,7 +159,8 @@ class TripController extends Controller
             'busySupirPo',
             'busyTourLeaders',
             'alreadyInTripKendaraanIds',
-            'alreadyInTripSupirPoIds'
+            'alreadyInTripSupirPoIds',
+            'alreadyInTripTourLeaderIds'
         ));
     }
 
@@ -179,6 +186,13 @@ class TripController extends Controller
             'tgl_selesai' => ['required', 'date', 'after_or_equal:tgl_mulai'],
             'status' => ['required', 'in:Upcoming,Ongoing,Completed,Cancelled'],
         ]);
+
+        $inputStatus = $request->input('status');
+        $validated['status'] = TripPerjalanan::determineStatusByDates(
+            $validated['tgl_mulai'],
+            $validated['tgl_selesai'],
+            $inputStatus
+        );
 
         $trip->update($validated);
 
@@ -263,8 +277,16 @@ class TripController extends Controller
             }
         }
 
-        // 4. Cek bentrok tanggal trip untuk Tour Leader di trip lain yang bersamaan
+        // 4. Cek apakah Tour Leader sudah dialokasikan pada bus lain di trip ini sendiri
         if (! empty($validated['tour_leader_id'])) {
+            $alreadyInTripTL = $trip->armada()->where('tour_leader_id', $validated['tour_leader_id'])->exists();
+            if ($alreadyInTripTL) {
+                return back()->withErrors([
+                    'tour_leader_id' => 'Tour Leader ini sudah memimpin armada bus lain pada trip ini. Silakan pilih Tour Leader yang berbeda untuk bus ini.',
+                ])->withInput();
+            }
+
+            // 5. Cek bentrok tanggal trip untuk Tour Leader di trip lain yang bersamaan
             $conflictTL = ArmadaBus::whereHas('trip', function ($q) use ($trip) {
                 $q->where('id', '!=', $trip->id)
                     ->where('status', '!=', 'Cancelled')

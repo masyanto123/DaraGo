@@ -4,27 +4,31 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span>Data Master</span>
-                <span>/</span>
-                <span class="text-slate-600">Destinasi Wisata</span>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-                Destinasi Wisata Indonesia
-            </h1>
-            <p class="text-xs text-slate-400 mt-0.5">
-                Katalog {{ number_format($destinasi->total()) }} objek wisata — dapat dijadwalkan dalam itinerary trip
-            </p>
-        </div>
+    <!-- Hero Header Banner with Gradient -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-sky-500 p-6 sm:p-7 shadow-lg shadow-indigo-500/15 text-white">
+        <!-- Subtle Glow Background Decorative Shapes -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-sky-400/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <a href="{{ route('destinasi.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-[#223268] hover:bg-[#1a2754] text-white text-xs font-semibold rounded-xl shadow-xs transition duration-150 cursor-pointer self-start sm:self-auto">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Tambah Destinasi</span>
-        </a>
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-1.5 text-xs text-white/80 font-medium mb-1.5">
+                    <span>Data Master</span>
+                    <span>/</span>
+                    <span class="text-white font-semibold">Destinasi Wisata</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Destinasi Wisata Indonesia
+                </h1>
+                <p class="text-xs text-white/80 mt-1 max-w-xl">
+                    Katalog {{ number_format($destinasi->total()) }} objek wisata — dapat dijadwalkan dalam itinerary trip
+                </p>
+            </div>
+
+            <a href="{{ route('destinasi.create') }}" class="inline-flex items-center px-4 py-2.5 bg-white/15 hover:bg-white/25 active:bg-white/30 backdrop-blur-md text-white text-xs font-semibold rounded-xl border border-white/20 shadow-sm transition duration-150 cursor-pointer self-start sm:self-auto hover:scale-[1.02]">
+                <span>Tambah Destinasi</span>
+            </a>
+        </div>
     </div>
 
     {{-- Flash Message --}}
@@ -88,10 +92,7 @@
                         <tr class="hover:bg-slate-50/50 transition">
                             <td class="px-4 py-3.5 font-mono font-medium text-slate-400 text-[11px]">{{ $dest->id }}</td>
                             <td class="px-4 py-3.5 font-semibold text-slate-900 max-w-[200px]">
-                                <div class="flex items-start gap-1.5">
-                                    <span class="text-amber-500 shrink-0 mt-0.5">📍</span>
-                                    <span class="leading-snug">{{ $dest->nama_wisata }}</span>
-                                </div>
+                                <span class="leading-snug">{{ $dest->nama_wisata }}</span>
                             </td>
                             <td class="px-4 py-3.5">
                                 @if($dest->kategori)

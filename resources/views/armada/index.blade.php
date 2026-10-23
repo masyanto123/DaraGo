@@ -3,27 +3,31 @@
 @section('title', 'Data Master PO & Armada Bus')
 
 @section('content')
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span>Data Master</span>
-                <span>/</span>
-                <span class="text-slate-600">PO & Armada Bus</span>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-                Perusahaan Otobus (PO) & Armada Bus
-            </h1>
-            <p class="text-xs text-slate-400 mt-0.5">
-                Kelola data Perusahaan Otobus (PO), alamat garasi, serta anakan unit armada kendaraan dan supirnya
-            </p>
-        </div>
+    <!-- Hero Header Banner with Gradient -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-sky-500 p-6 sm:p-7 shadow-lg shadow-indigo-500/15 text-white">
+        <!-- Subtle Glow Background Decorative Shapes -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-sky-400/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <a href="{{ route('armada.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-[#223268] hover:bg-[#1a2754] text-white text-xs font-semibold rounded-xl shadow-xs transition duration-150 cursor-pointer self-start sm:self-auto">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Tambah PO Bus</span>
-        </a>
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-1.5 text-xs text-white/80 font-medium mb-1.5">
+                    <span>Data Master</span>
+                    <span>/</span>
+                    <span class="text-white font-semibold">PO & Armada Bus</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Perusahaan Otobus (PO) & Armada Bus
+                </h1>
+                <p class="text-xs text-white/80 mt-1 max-w-xl">
+                    Kelola data Perusahaan Otobus (PO), alamat garasi, serta anakan unit armada kendaraan dan supirnya
+                </p>
+            </div>
+
+            <a href="{{ route('armada.create') }}" class="inline-flex items-center px-4 py-2.5 bg-white/15 hover:bg-white/25 active:bg-white/30 backdrop-blur-md text-white text-xs font-semibold rounded-xl border border-white/20 shadow-sm transition duration-150 cursor-pointer self-start sm:self-auto hover:scale-[1.02]">
+                <span>Tambah PO Bus</span>
+            </a>
+        </div>
     </div>
 
     <!-- Search Bar -->
@@ -91,12 +95,12 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-100">
-                                    🚌 {{ $po->kendaraan_count }} Unit Bus
+                                    {{ $po->kendaraan_count }} Unit Bus
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[11px] border border-emerald-100">
-                                    👨‍✈️ {{ $po->supir_count }} Supir
+                                    {{ $po->supir_count }} Supir
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-slate-500 max-w-xs">

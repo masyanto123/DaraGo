@@ -27,7 +27,7 @@
                         <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
                             <input type="radio" name="kategori_personil" value="karyawan_biro" onchange="toggleKategoriPersonil()" {{ old('kategori_personil', 'karyawan_biro') === 'karyawan_biro' ? 'checked' : '' }} class="text-indigo-600 focus:ring-indigo-500">
                             <div class="ml-3">
-                                <span class="block text-xs font-bold text-slate-900">🏢 Karyawan / Staf Biro</span>
+                                <span class="block text-xs font-bold text-slate-900">Karyawan / Staf Biro</span>
                                 <span class="block text-[10px] text-slate-500">Tour Leader, Admin & Staf Biro</span>
                             </div>
                         </label>
@@ -35,7 +35,7 @@
                         <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
                             <input type="radio" name="kategori_personil" value="driver_po" onchange="toggleKategoriPersonil()" {{ old('kategori_personil') === 'driver_po' ? 'checked' : '' }} class="text-indigo-600 focus:ring-indigo-500">
                             <div class="ml-3">
-                                <span class="block text-xs font-bold text-slate-900">🚌 Karyawan PO Bus</span>
+                                <span class="block text-xs font-bold text-slate-900">Karyawan PO Bus</span>
                                 <span class="block text-[10px] text-slate-500">Admin PO, Supir Utama & Co-Supir</span>
                             </div>
                         </label>
@@ -92,7 +92,7 @@
                     </select>
                     @if($biros->isEmpty())
                         <p class="text-[11px] text-amber-600 mt-1">
-                            ⚠️ Belum ada Biro Perjalanan terdaftar. Tambahkan di menu <a href="{{ route('biro.create') }}" class="underline font-bold">Data Master Biro</a>.
+                            Belum ada Biro Perjalanan terdaftar. Tambahkan di menu <a href="{{ route('biro.create') }}" class="underline font-bold">Data Master Biro</a>.
                         </p>
                     @endif
                     @error('biro_id') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
@@ -113,7 +113,7 @@
                             </select>
                             @if($poList->isEmpty())
                                 <p class="text-[11px] text-amber-600 mt-1">
-                                    ⚠️ Belum ada PO Bus terdaftar. Tambahkan di menu <a href="{{ route('armada.create') }}" target="_blank" class="underline font-bold">Data Master Armada Bus</a>.
+                                    Belum ada PO Bus terdaftar. Tambahkan di menu <a href="{{ route('armada.create') }}" target="_blank" class="underline font-bold">Data Master Armada Bus</a>.
                                 </p>
                             @endif
                             @error('po_id') <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span> @enderror
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <div id="driverInfo" class="hidden p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-[11px] text-emerald-800 flex items-center gap-2">
-                        <span>✅ Driver yang didaftarkan di sini akan <strong>otomatis tersambung</strong> dan muncul di daftar <strong>Anakan Data: Supir PO</strong> pada menu Armada Bus.</span>
+                        <span>Driver yang didaftarkan di sini akan <strong>otomatis tersambung</strong> dan muncul di daftar <strong>Anakan Data: Supir PO</strong> pada menu Armada Bus.</span>
                     </div>
                 </div>
 
